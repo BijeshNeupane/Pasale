@@ -1,22 +1,32 @@
 @import "tailwindcss";
 
 @layer components {
-    @keyframes marqueeScroll {
-        0% {
-            transform: translateX(0%);
-        }
-        100% {
-            transform: translateX(-50%);
-        }
+  @keyframes marqueeScroll {
+    0% {
+      transform: translateX(0%);
     }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 @layer base {
-    button {
-        cursor: pointer;
-    }
+  button {
+    cursor: pointer;
+  }
 }
 
 .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  display: none;
+}
+
+#nprogress .bar {
+  background: linear-gradient(90deg, #ff0000, #ff4d4d);
+  height: 3px;
+  border-radius: 2px;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #ff4d4d, 0 0 5px #ff0000;
 }
