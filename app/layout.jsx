@@ -4,6 +4,8 @@ import StoreProvider from "@/app/StoreProvider";
 import ProgressBar from "@/components/ProgressBar";
 import "./globals.css";
 
+import { ClerkProvider } from "@clerk/nextjs";
+
 const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600"] });
 
 export const metadata = {
@@ -13,14 +15,16 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={`${outfit.className} antialiased`}>
-        <StoreProvider>
-          <ProgressBar />
-          <Toaster />
-          {children}
-        </StoreProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${outfit.className} antialiased`}>
+          <StoreProvider>
+            <ProgressBar />
+            <Toaster />
+            {children}
+          </StoreProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
