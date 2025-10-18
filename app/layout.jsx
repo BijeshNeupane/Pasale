@@ -6,7 +6,11 @@ import "./globals.css";
 
 import { ClerkProvider } from "@clerk/nextjs";
 
-const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600"] });
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
 
 export const metadata = {
   title: "GoCart. - Shop smarter",
