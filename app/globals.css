@@ -28,5 +28,5 @@
 }
 
 #nprogress .peg {
-  box-shadow: 0 0 10px #ff4d4d, 0 0 5px #ff0000;
+  box-shadow: 0 0 10px #ff4d4d, 0 0 5px #ff0000 !important;
 }
