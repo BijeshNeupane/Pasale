@@ -2,8 +2,6 @@ import imagekit from "@/configs/imageKits";
 import prisma from "@/lib/prisma";
 import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { status } from "nprogress";
-import { connect } from "react-redux";
 
 // create store
 export async function POST(request) {
