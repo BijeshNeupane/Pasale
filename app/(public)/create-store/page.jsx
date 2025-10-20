@@ -7,6 +7,7 @@ import Loading from "@/components/Loading";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { set } from "nprogress";
 
 export default function CreateStore() {
   const { user } = useUser();
@@ -33,7 +34,50 @@ export default function CreateStore() {
   };
 
   const fetchSellerStatus = async () => {
-    // Logic to check if the store is already submitted
+    const token = await getToken();
+    try {
+      const { data } = await axios.get("/api/store/create", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (["pending", "approved", "rejected"].includes(data.status)) {
+        setStatus(data.status);
+        setAlreadySubmitted(true);
+        switch (data.status) {
+          case "approved":
+            setMessage(
+              "Your store has been approved, you can now add products from your dashboard"
+            );
+            setTimeout(() => {
+              router.push("/store");
+            }, 5000);
+            break;
+
+          case "rejected":
+            setMessage(
+              "Your store creation request has been rejected. Contact the admin for more details."
+            );
+            break;
+
+          case "pending":
+            setMessage(
+              "Your store creation request is pending, please be patient and wait for the admin to approve your store."
+            );
+            break;
+
+          default:
+            break;
+        }
+      } else {
+        setAlreadySubmitted(false);
+      }
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.error || error?.message || "Something went wrong"
+      );
+    }
 
     setLoading(false);
   };
@@ -63,6 +107,7 @@ export default function CreateStore() {
       });
 
       toast.success("Store created successfully!");
+      await fetchSellerStatus();
     } catch (error) {
       toast.error(
         error?.response?.data?.error || error.message || "Something went wrong"
@@ -71,8 +116,10 @@ export default function CreateStore() {
   };
 
   useEffect(() => {
-    fetchSellerStatus();
-  }, []);
+    if (user) {
+      fetchSellerStatus();
+    }
+  }, [user]);
 
   if (!user) {
     return (
