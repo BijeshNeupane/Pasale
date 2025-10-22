@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import "../app/globals.css";
 import { usePathname, useRouter } from "next/navigation";
 
 export default function ProgressBar() {
