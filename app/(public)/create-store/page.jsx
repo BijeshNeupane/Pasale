@@ -124,8 +124,8 @@ export default function CreateStore() {
   if (!user) {
     return (
       <div className="min-h-[80vh] flex flex-col items-center justify-center">
-        <p className="sm:text-2xl lg:text-3xl mx-5 font-semibold text-slate-500 text-center max-w-2xl">
-          You must be logged in to create a store.
+        <p className="text-2xl sm:text-3xl lg:text-4xl mx-5 font-semibold text-slate-500 text-center max-w-2xl">
+          Please <span className="text-slate-800">Login</span> to continue.
         </p>
       </div>
     );
