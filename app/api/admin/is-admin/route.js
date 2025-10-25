@@ -12,7 +12,7 @@ export async function GET(request) {
       return NextResponse.json({ error: "not authorized" }, { status: 401 });
     }
 
-    return NextResponse.json(isAdmin);
+    return NextResponse.json({ isAdmin });
   } catch (error) {
     console.log(error);
     return NextResponse.json(
