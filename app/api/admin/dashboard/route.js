@@ -45,7 +45,7 @@ export async function GET(request) {
       allOrders,
     };
 
-    return NextResponse.json(dashboardData);
+    return NextResponse.json({ dashboardData });
   } catch (error) {
     console.log(error);
     return NextResponse.json(

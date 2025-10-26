@@ -6,9 +6,8 @@ const authAdmin = async (userId) => {
     const client = await clerkClient();
     const user = await client.users.getUser(userId);
 
-    return process.env.ADMIN_EMAIL.split(
-      ",".includes(user.emailAddresses[0].emailAddress)
-    );
+    const adminEmails = process.env.ADMIN_EMAIL.split(",");
+    if (adminEmails.includes(user.emailAddresses[0].emailAddress)) return true;
   } catch (error) {
     console.log(error);
     return false;
