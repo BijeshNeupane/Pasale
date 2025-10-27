@@ -60,6 +60,16 @@ export default function AdminCoupons() {
       toast.success(data.message);
     } catch (error) {
       toast.error(error?.response?.data?.error || error.message);
+    } finally {
+      setNewCoupon({
+        code: "",
+        description: "",
+        discount: "",
+        forNewUser: false,
+        forMember: false,
+        isPublic: false,
+        expiresAt: new Date(),
+      });
     }
   };
 
