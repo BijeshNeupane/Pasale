@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
   try {
     const { userId } = getAuth(request);
-    const productId = await request.json();
+    const { productId } = await request.json();
 
     if (!productId) {
       return NextResponse.json(
