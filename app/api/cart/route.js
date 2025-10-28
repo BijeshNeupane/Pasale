@@ -7,9 +7,8 @@ export async function POST(Request) {
   try {
     const { userId } = getAuth(Request);
     const { cart } = await Request.json();
-
     // save cart to database
-    prisma.user.update({
+    await prisma.user.update({
       where: { id: userId },
       data: { cart },
     });
