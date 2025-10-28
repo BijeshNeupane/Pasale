@@ -148,7 +148,7 @@ export default function StoreAddProduct() {
 
         <div className="flex gap-5">
           <label htmlFor="" className="flex flex-col gap-2 ">
-            Actual Price (Rs.)
+            Actual Price $)
             <input
               type="number"
               name="mrp"
@@ -161,7 +161,7 @@ export default function StoreAddProduct() {
             />
           </label>
           <label htmlFor="" className="flex flex-col gap-2 ">
-            Offer Price (Rs.)
+            Offer Price ($)
             <input
               type="number"
               name="price"

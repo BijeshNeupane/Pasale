@@ -4,9 +4,13 @@ import AddressModal from "./AddressModal";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Protect } from "@clerk/nextjs";
+import { Protect, useAuth, useUser } from "@clerk/nextjs";
+import axios from "axios";
 
 const OrderSummary = ({ totalPrice, items }) => {
+  const { user } = useUser();
+  const { getToken } = useAuth();
+
   const currency = process.env.NEXT_PUBLIC_CURRENCY_SYMBOL || "$";
 
   const router = useRouter();
@@ -21,6 +25,25 @@ const OrderSummary = ({ totalPrice, items }) => {
 
   const handleCouponCode = async (event) => {
     event.preventDefault();
+    try {
+      if (!user) {
+        return toast.error("Please log in to proceed");
+      }
+      const token = await getToken();
+      const { data } = await axios.post(
+        "/api/coupon",
+        { code: couponCodeInput },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setCoupon(data.coupon);
+      toast.success("Coupon applied successfully!");
+    } catch (error) {
+      toast.error(error?.response?.data?.error || error.message);
+    }
   };
 
   const handlePlaceOrder = async (e) => {
@@ -112,7 +135,7 @@ const OrderSummary = ({ totalPrice, items }) => {
               {totalPrice.toLocaleString()}
             </p>
             <p>
-              <Protect plan="plus" fallback={`${currency}50`}>
+              <Protect plan="plus" fallback={`${currency}5`}>
                 Free
               </Protect>
             </p>
@@ -144,14 +167,14 @@ const OrderSummary = ({ totalPrice, items }) => {
             </button>
           </form>
         ) : (
-          <div className="w-full flex items-center justify-center gap-2 text-xs mt-2">
-            <p>
+          <div className="w-full flex items-center justify-between gap-2 text-xs mt-2">
+            <div>
               Code:{" "}
               <span className="font-semibold ml-1">
-                {coupon.code.toUpperCase()}
+                {coupon.code.toUpperCase()} {`(Applied)`}
               </span>
-            </p>
-            <p>{coupon.description}</p>
+              <p>{coupon.description}</p>
+            </div>
             <XIcon
               size={18}
               onClick={() => setCoupon("")}
@@ -170,10 +193,10 @@ const OrderSummary = ({ totalPrice, items }) => {
               coupon
                 ? (
                     totalPrice +
-                    50 -
+                    5 -
                     (coupon.discount / 100) * totalPrice
                   ).toFixed(2)
-                : (totalPrice + 50).toLocaleString()
+                : (totalPrice + 5).toLocaleString()
             }`}
           >
             {currency}

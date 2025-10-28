@@ -1,10 +1,11 @@
 import prisma from "@/lib/prisma";
-import { useAuth } from "@clerk/nextjs/server";
+import { getAuth } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
 // verify coupon
-export async function GET(Request) {
+export async function POST(Request) {
   try {
-    const { userId, has } = useAuth(Request);
+    const { userId, has } = getAuth(Request);
     const { code } = await Request.json();
 
     const coupon = await prisma.coupon.findUnique({
@@ -12,10 +13,7 @@ export async function GET(Request) {
     });
 
     if (!coupon)
-      return NextResponse.json(
-        { message: "Coupon not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Coupon not found" }, { status: 404 });
 
     if (coupon.forNewUser) {
       const userOrders = await prisma.order.findMany({
