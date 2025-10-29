@@ -36,7 +36,7 @@ export async function GET(request) {
       ratings,
       totalOrders: orders.length,
       totalEarnings: Math.round(
-        orders.reduce((acc, order) => acc + order.totalPrice, 0)
+        orders.reduce((acc, order) => acc + order.total, 0)
       ),
       totalProducts: products.length,
     };

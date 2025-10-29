@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { getAuth } from "@clerk/nextjs/server";
+import { PaymentMethod } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 //Api to send order
@@ -17,24 +18,27 @@ export async function POST(request) {
       !addressId ||
       !items ||
       !paymentMethod ||
-      Array.isArray(items) ||
+      !Array.isArray(items) ||
       items.length === 0
     )
       return NextResponse.json({ error: "missing details" }, { status: 400 });
 
+    console.log("couponcode", couponCode);
     let coupon = null;
 
     if (couponCode) {
       coupon = await prisma.coupon.findUnique({
         where: {
-          code: couponCode,
+          code: couponCode.toUpperCase(),
         },
       });
-      if (!coupon)
+
+      if (!coupon) {
         return NextResponse.json(
           { error: "Coupon not found" },
           { status: 404 }
         );
+      }
     }
 
     // check if couple is applicable for new user
@@ -70,7 +74,7 @@ export async function POST(request) {
     // group orders by storeId using a Map
     const ordersByStore = new Map();
 
-    for (item of items) {
+    for (const item of items) {
       const product = await prisma.product.findUnique({
         where: { id: item.id },
       });
@@ -89,7 +93,7 @@ export async function POST(request) {
 
     // create order for each seller
     for (const [storeId, sellerItems] of ordersByStore.entries()) {
-      total = sellerItems.reduce(
+      let total = sellerItems.reduce(
         (acc, item) => acc + item.price * item.quantity,
         0
       );
@@ -98,7 +102,7 @@ export async function POST(request) {
         total -= (total * coupon.discount) / 100;
       }
 
-      if (!isPlusMember && !shippingFeeAdded) {
+      if (!isPlusMember && !isShippingFeeAdded) {
         total += 5;
         isShippingFeeAdded = true;
       }
@@ -153,12 +157,12 @@ export async function GET(request) {
         userId,
         OR: [
           {
-            paymentMethod: paymentMethod.COD,
+            paymentMethod: PaymentMethod.COD,
           },
           {
             AND: [
               {
-                paymentMethod: paymentMethod.STRIPE,
+                paymentMethod: PaymentMethod.STRIPE,
                 isPaid: true,
               },
             ],

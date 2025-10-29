@@ -15,6 +15,12 @@ const outfit = Outfit({
 export const metadata = {
   title: "GoCart. - Shop smarter",
   description: "GoCart. - Shop smarter",
+  manifest: "/manifest.json",
+  themeColor: "#000000",
+  icons: {
+    icon: "/icons/icon-192x192.png",
+    apple: "/icons/icon-512x512.png",
+  },
 };
 
 export default function RootLayout({ children }) {

@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
-import { orderDummyData } from "@/assets/assets";
 import { useAuth, useUser } from "@clerk/nextjs";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -49,6 +48,8 @@ export default function StoreOrders() {
         });
       });
 
+      fetchOrders();
+
       toast.success("Order status updated!");
     } catch (error) {
       toast.error(error?.response?.data?.error || error.message);
@@ -78,7 +79,7 @@ export default function StoreOrders() {
       <h1 className="text-2xl text-slate-500 mb-5">
         Store <span className="text-slate-800 font-medium">Orders</span>
       </h1>
-      {orders.length === 0 ? (
+      {orders?.length === 0 ? (
         <p>No orders found</p>
       ) : (
         <div className="overflow-x-auto max-w-4xl rounded-md shadow border border-gray-200">
@@ -101,7 +102,7 @@ export default function StoreOrders() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {orders.map((order, index) => (
+              {orders?.map((order, index) => (
                 <tr
                   key={order.id}
                   className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
