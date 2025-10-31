@@ -13,10 +13,14 @@ const outfit = Outfit({
 });
 
 export const metadata = {
-  title: "GoCart. - Shop smarter",
-  description: "GoCart. - Shop smarter",
+  title: "Pasale. - New Age Shopping",
+  description:
+    "Pasale is an individual project built to sharpen my Next.js skills. We highly discourage using real money on this platform.",
   manifest: "/manifest.json",
-  themeColor: "#000000",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
   icons: {
     icon: "/icons/icon-192x192.png",
     apple: "/icons/icon-512x512.png",
