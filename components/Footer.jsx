@@ -151,15 +151,6 @@ const Footer = () => {
 
   const linkSections = [
     {
-      title: "PRODUCTS",
-      links: [
-        { text: "Earphones", path: "/", icon: null },
-        { text: "Headphones", path: "/", icon: null },
-        { text: "Smartphones", path: "/", icon: null },
-        { text: "Laptops", path: "/", icon: null },
-      ],
-    },
-    {
       title: "WEBSITE?",
       links: [
         { text: "Home", path: "/", icon: null },
@@ -171,9 +162,9 @@ const Footer = () => {
     {
       title: "CONTACT",
       links: [
-        { text: "+1-212-456-7890", path: "/", icon: MailIcon },
-        { text: "contact@example.com", path: "/", icon: PhoneIcon },
-        { text: "794 Francisco, 94102", path: "/", icon: MapPinIcon },
+        { text: "+977 9841160287", path: "/", icon: MailIcon },
+        { text: "neubij64@gmail.com", path: "/", icon: PhoneIcon },
+        { text: "Duwakot, Bhaktapur", path: "/", icon: MapPinIcon },
       ],
     },
   ];
@@ -195,10 +186,8 @@ const Footer = () => {
               <span className="text-green-600 text-5xl leading-0">.</span>
             </Link>
             <p className="max-w-[410px] mt-6 text-sm">
-              Welcome to gocart, your ultimate destination for the latest and
-              smartest gadgets. From smartphones and smartwatches to essential
-              accessories, we bring you the best in innovation — all in one
-              place.
+              Welcome to Pasale, This is my multi vendor e-commerce project
+              where you can buy and sell products easily.
             </p>
             <div className="flex items-center gap-3 mt-5">
               {socialIcons.map((item, i) => (

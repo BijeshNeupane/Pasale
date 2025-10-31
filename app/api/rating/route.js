@@ -61,8 +61,6 @@ export async function GET(Request) {
       },
     });
 
-    console.log("rating", ratings);
-
     return NextResponse.json({ ratings });
   } catch (error) {
     console.error("Error getting ratings:", error);
